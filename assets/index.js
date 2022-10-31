@@ -27,7 +27,8 @@ const local = new Local()
 
 // 搜索源
 const search_source = {
-  baidu: "https://kaifa.baidu.com/searchPage?wd=",
+  baidu: "http://baidu.com/s?wd=",
+  baidukf: "https://kaifa.baidu.com/searchPage?wd=",
   npm: "https://www.npmjs.com/search?q=",
   juejin: "https://juejin.cn/search?query=",
   github: "https://github.com/search?q=",
@@ -69,7 +70,15 @@ function getHistory(index) {
   return commandStack[commandIndex] || ''
 }
 
+let flag = true
 
+input.addEventListener('compositionstart', () => {
+  flag = false
+})
+
+input.addEventListener('compositionend', () => {
+  flag = true
+})
 // 事件监听
 window.addEventListener('keyup', function (e) {
   input.focus()
@@ -78,14 +87,18 @@ window.addEventListener('keyup', function (e) {
     Analysis()
     input.value = ''
   } else if (e.code === 'ArrowUp') {
-    let val = getHistory(commandIndex - 1)
-    input.value = val
-    setTimeout(() => {
-      input.selectionStart = input.value.length
-      input.selectionEnd = input.value.length
-    })
+    if (flag) {
+      let val = getHistory(commandIndex - 1)
+      input.value = val
+      setTimeout(() => {
+        input.selectionStart = input.value.length
+        input.selectionEnd = input.value.length
+      })
+    }
   } else if (e.code === 'ArrowDown') {
-    input.value = getHistory(commandIndex + 1)
+    if (flag) {
+      input.value = getHistory(commandIndex + 1)
+    }
   }
 })
 
