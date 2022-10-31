@@ -2,8 +2,11 @@ const input = document.querySelector('#input')
 const searchbar = document.querySelector('.searchbar')
 
 
-// 记录当前指令下标
-let commandIndex = 0
+// 默认配置
+let LKWebShell = {
+  bg: '#000',
+  fontSize: "1rem"
+}
 
 // 操作localstorage
 class Local {
@@ -19,6 +22,8 @@ class Local {
     localStorage.removeItem(key)
   }
 }
+
+const local = new Local()
 
 // 搜索源
 const search_source = {
@@ -83,3 +88,29 @@ window.addEventListener('keyup', function (e) {
     input.value = getHistory(commandIndex + 1)
   }
 })
+
+
+function init() {
+  let LK = local.get('LKWebShell') || LKWebShell
+  LKWebShell = JSON.parse(LK)
+  console.log(LKWebShell);
+  for (let key in LKWebShell) {
+    switch (key) {
+      case "bg": {
+        if (LKWebShell['bg'].indexOf('http') != -1) {
+          document.body.style['background'] = `url(${LKWebShell['bg']})`
+        } else {
+          document.body.style['background'] = LKWebShell['bg']
+        }
+        break;
+      }
+      default: {
+        console.log(key, LKWebShell[key]);
+      }
+    }
+  }
+}
+
+window.onload = function () {
+  init()
+}

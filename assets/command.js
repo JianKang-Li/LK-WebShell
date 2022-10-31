@@ -1,5 +1,9 @@
 // 存储已输入指令
 const commandStack = []
+
+// 记录当前指令下标
+let commandIndex = 0
+
 // 解析指令
 function Analysis() {
   const value = input.value.trim()
@@ -103,9 +107,22 @@ const commands = {
   set: {
     description: "对网站某些属性进行设置",
     detail: `使用:set type value;<br>
-    支持设置的属性有background`,
-    run: function (type, value) {
-      console.log(type, value);
+    支持设置的属性有background(bg)`,
+    run: function () {
+      if (paramsJu(2, arguments[0])) {
+        let type = arguments[0][0]
+        let value = arguments[0][1]
+        if (LKWebShell[type]) {
+          LKWebShell[type] = value
+          local.set('LKWebShell', JSON.stringify(LKWebShell))
+          init()
+          print(`Successful!`, 'green')
+        } else {
+          print(`cant't set attribute ${type}`, 'red')
+        }
+      } else {
+        ParamsWarn('set', 2)
+      }
     }
   },
   detail: {
