@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LK-WebShell</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100vh;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+    }
+
+    .searchbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.3rem 1rem;
+    }
+
+    #input {
+      box-sizing: border-box;
+      background-color: #000;
+      color: #fff;
+      border: 0;
+      flex: 1;
+      font-size: 1rem;
+      padding: 0.1rem 1rem;
+    }
+
+    .print {
+      width: fit-content;
+      height: fit-content;
+      padding: 0.3rem 1rem;
+    }
+
+    #input:focus {
+      outline: none;
+    }
+
+    ::selection {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="searchbar">
+    <span>></span>
+    <input type="text" id="input" autoComplete='off' autofocus>
+  </div>
+  <script>
+    const input = document.querySelector('#input')
+    const searchbar = document.querySelector('.searchbar')
+
+    const search_source = {
+      baidu: "https://kaifa.baidu.com/searchPage?wd=",
+      npm: "https://www.npmjs.com/search?q=",
+      juejin: "https://juejin.cn/search?query=",
+    }
+
+    function search(source, key) {
+      let sourceUrl = search_source[source]
+      if (sourceUrl) {
+        window.open(`${sourceUrl}${key}`)
+      } else {
+        print(`Can't identify the search source at ${source}`)
+      }
+    }
+
+    const commands = {
+      search: {
+        description: "用于搜索，第一个参数为搜索源，第二个参数为搜索关键词",
+        run: function () {
+          let type = arguments[0][0]
+          let key = arguments[0][1]
+          search(type, key)
+        }
+      },
+      help: {
+        description: "查询命令的使用方法",
+        run: function () {
+          for (let key in commands) {
+            print(`${key}   ${commands[key].description}`)
+          }
+        }
+      },
+      time: {
+        description: "返回当前时间",
+        run: function () {
+          let time = (new Date()).toTimeString().slice(0, 8)
+          print(time)
+        }
+      }
+    }
+
+    // 输出到屏幕
+    function print(text) {
+      const div = document.createElement('div')
+      div.className = 'print'
+      div.innerHTML = text
+      document.body.insertBefore(div, searchbar)
+    }
+
+    // 解析指令
+    function Analysis() {
+      const value = input.value.trim()
+      let params = value.split(" ").filter((value) => {
+        return value != ''
+      })
+      let command = params[0]
+      params.shift()
+      if (commands[command]) {
+        commands[command].run(params)
+      }
+    }
+
+    window.addEventListener('keydown', function (e) {
+      if (e.code === 'Enter') {
+        print(`>&nbsp;&nbsp;&nbsp;${input.value}`)
+        Analysis()
+        input.value = ''
+      }
+    })
+
+
+  </script>
+</body>
+
+</html>
