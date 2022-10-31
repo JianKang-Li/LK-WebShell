@@ -123,5 +123,13 @@ const commands = {
         ParamsWarn('detail', 1)
       }
     }
+  },
+  source: {
+    description: "打印支持的搜索源",
+    run: function () {
+      for (let key in search_source) {
+        print(`${key} --${search_source[key]}<br/>`, 'green')
+      }
+    }
   }
 }
