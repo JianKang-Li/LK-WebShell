@@ -92,7 +92,7 @@ window.addEventListener('keyup', function (e) {
 
 function init() {
   let LK = local.get('LKWebShell') || LKWebShell
-  LKWebShell = JSON.parse(LK)
+  LKWebShell = typeof LK === 'string' ? JSON.parse(LK) : LK
   console.log(LKWebShell);
   for (let key in LKWebShell) {
     switch (key) {
