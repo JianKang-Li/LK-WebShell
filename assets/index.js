@@ -1,8 +1,7 @@
 const input = document.querySelector('#input')
 const searchbar = document.querySelector('.searchbar')
 
-// 存储已输入指令
-const commandStack = []
+
 // 记录当前指令下标
 let commandIndex = 0
 
@@ -26,6 +25,9 @@ const search_source = {
   baidu: "https://kaifa.baidu.com/searchPage?wd=",
   npm: "https://www.npmjs.com/search?q=",
   juejin: "https://juejin.cn/search?query=",
+  github: "https://github.com/search?q=",
+  bing: "https://www.bing.com/search?q=",
+  google: "https://www.google.com/search?q=",
 }
 
 // 搜索实现

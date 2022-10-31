@@ -1,3 +1,5 @@
+// 存储已输入指令
+const commandStack = []
 // 解析指令
 function Analysis() {
   const value = input.value.trim()
