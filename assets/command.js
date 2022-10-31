@@ -100,7 +100,8 @@ const commands = {
   },
   set: {
     description: "对网站某些属性进行设置",
-    detail: `使用:set type value;支持设置的属性有background`,
+    detail: `使用:set type value;<br>
+    支持设置的属性有background`,
     run: function (type, value) {
       console.log(type, value);
     }
