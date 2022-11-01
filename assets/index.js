@@ -82,21 +82,21 @@ input.addEventListener('compositionend', () => {
 // 事件监听
 window.addEventListener('keyup', function (e) {
   input.focus()
-  if (e.code === 'Enter') {
-    print(`>&nbsp;&nbsp;&nbsp;${input.value}`)
-    Analysis()
-    input.value = ''
-  } else if (e.code === 'ArrowUp') {
-    if (flag) {
+  if (flag) {
+    console.log(1);
+    if (e.code === 'Enter') {
+      print(`>&nbsp;&nbsp;&nbsp;${input.value}`)
+      Analysis()
+      input.value = ''
+    } else if (e.code === 'ArrowUp') {
       let val = getHistory(commandIndex - 1)
       input.value = val
       setTimeout(() => {
         input.selectionStart = input.value.length
         input.selectionEnd = input.value.length
       })
-    }
-  } else if (e.code === 'ArrowDown') {
-    if (flag) {
+
+    } else if (e.code === 'ArrowDown') {
       input.value = getHistory(commandIndex + 1)
     }
   }
@@ -118,7 +118,7 @@ function init() {
         break;
       }
       default: {
-        console.log(key, LKWebShell[key]);
+        // console.log(key, LKWebShell[key]);
       }
     }
   }
