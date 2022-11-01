@@ -83,7 +83,6 @@ input.addEventListener('compositionend', () => {
 window.addEventListener('keyup', function (e) {
   input.focus()
   if (flag) {
-    console.log(1);
     if (e.code === 'Enter') {
       print(`>&nbsp;&nbsp;&nbsp;${input.value}`)
       Analysis()
