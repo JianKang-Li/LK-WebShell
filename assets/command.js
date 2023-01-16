@@ -41,8 +41,13 @@ const commands = {
         let key = arguments[0][1]
         search(type, key)
         print("Successful!", 'green')
-      } else {
-        ParamsWarn('search', 2)
+      } else if (paramsJu(1, arguments[0])) {
+        let key = arguments[0][0]
+        search('baidu', key)
+        print("Successful!", 'green')
+      }
+      else {
+        ParamsWarn('search', 1)
       }
     }
   },
@@ -76,11 +81,18 @@ const commands = {
   },
   go: {
     description: "前往指定网站",
-    detail: `使用:go URL`,
+    detail: `使用:go URL/书签名`,
     run: function () {
       if (paramsJu(1, arguments[0])) {
-        let url = arguments[0][0]
-        if (url.indexOf("http") === -1) {
+        let pry = url = arguments[0][0]
+        flag = 0
+        for (let key in LKWebShell['bookmarks']) {
+          if (key === url) {
+            flag = 1
+            url = LKWebShell['bookmarks'][key]
+          }
+        }
+        if (!flag && url.indexOf("http") === -1) {
           url = `http://${url}`
         }
         window.open(url)
@@ -146,6 +158,32 @@ const commands = {
     run: function () {
       for (let key in search_source) {
         print(`${key} --${search_source[key]}<br/>`, 'green')
+      }
+    }
+  },
+  save: {
+    description: "保存书签",
+    detail: `使用:save 显示词 网址`,
+    run: function () {
+      if (paramsJu(2, arguments[0])) {
+        let show = arguments[0][0]
+        let value = arguments[0][1]
+        console.log(LKWebShell['bookmarks']);
+        LKWebShell["bookmarks"][show] = value
+        local.set('LKWebShell', JSON.stringify(LKWebShell))
+        init()
+        print(`Successful!`, 'green')
+      } else {
+        ParamsWarn('set', 2)
+      }
+    }
+  },
+  bookmarks: {
+    description: "查看书签",
+    detail: `使用:bookmarks`,
+    run: function () {
+      for (let key in LKWebShell['bookmarks']) {
+        print(key + " " + LKWebShell['bookmarks'][key])
       }
     }
   }

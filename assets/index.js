@@ -5,7 +5,8 @@ const searchbar = document.querySelector('.searchbar')
 // 默认配置
 let LKWebShell = {
   bg: '#000',
-  fontSize: "1rem"
+  fontSize: "1rem",
+  bookmarks: {}
 }
 
 // 操作localstorage
